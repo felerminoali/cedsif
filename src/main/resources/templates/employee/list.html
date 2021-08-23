@@ -1,0 +1,71 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout">
+
+<head>
+	<title>Funcionários</title>
+</head>
+
+<body>
+	<section layout:fragment="header">
+		<h1>Funcionários</h1>
+		<ol class="breadcrumb">
+			<li><a href="/"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li class="active">Funcionários</li>
+		</ol>
+	</section>
+	<div layout:fragment="content">
+		<div class="box">
+			<div class="box-header with-border">
+				<div class="box-header with-border">
+				<h3 class="box-title">Lista</h3>
+				<div class="box-tools pull-right">
+					<div class="box-tools pull-right">
+					<div class="btn-group">
+                      <button type="button" class="btn btn-default btn-flat">Adicionar</button>
+                      <button type="button" class="btn btn-default btn-flat dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                      </button>
+                      <ul class="dropdown-menu" role="menu">
+                        <li><a href="/employee/add-admin">Administrador</a></li>
+                        <li><a href="/employee/add-consultant">Consultor</a></li>
+                        <li><a href="/employee/add-manager">Gestor</a></li>
+                      </ul>
+                    </div>
+
+					<br clear="all" />
+				</div>
+				</div>
+			</div>
+				
+			</div>
+			<!-- /.card-header -->
+			<div class="box-body">
+
+				<table id="tblEmployee" class="table table-bordered table-striped" style="width:100%">
+					<thead>
+						<tr>
+							<th>Nome</th>
+							<th>Nuit</th>
+							<!--<th>Categoria</th>-->
+							<th>Acção</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+					<tfoot>
+					</tfoot>
+				</table>
+			</div>
+			<!-- /.card-body -->
+		</div>
+	</div>
+
+	<th:block layout:fragment="script">
+		<script th:src="@{/js/employee.js}"></script>
+	</th:block>
+
+</body>
+
+</html>>

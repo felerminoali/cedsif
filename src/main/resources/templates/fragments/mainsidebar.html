@@ -1,0 +1,46 @@
+<!-- sidebar: style can be found in sidebar.less -->
+<section class="sidebar" th:fragment="sidebar">
+   
+    <!-- Sidebar Menu -->
+    <ul class="sidebar-menu" data-widget="tree">
+      
+      <li class="header">Cedsif, IP</li>
+   	  <li class="active treeview">
+            <a href="/">
+                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            </a>
+       </li>
+        
+      <li class="treeview">
+        <a href="#"><i class="fa fa-link"></i> <span>Configurações Globais</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+        <ul class="treeview-menu">
+          <li><a href="/departament">Departamentos</a></li>
+          <li><a href="/employee">Funcionários</a></li>
+           <li><a href="#">Projectos</a></li>  
+          
+        </ul>
+      </li>
+      <!-- Optionally, you can add icons to the links -->
+      <li><a href="#"><i class="fa fa-link"></i> <span>Projecto</span></a></li>
+      <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
+      <li class="treeview">
+        <a href="#"><i class="fa fa-link"></i> <span>Relatórios</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+        <ul class="treeview-menu">
+          <li><a href="#">Carga Horária de trabalho</a></li>
+          <li><a href="#">Milestone</a></li>
+        
+        </ul>
+      </li>
+      
+    </ul>
+    
+</section>
+<!-- /.sidebar -->
