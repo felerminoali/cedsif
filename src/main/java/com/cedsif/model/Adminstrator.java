@@ -9,11 +9,14 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -35,11 +38,15 @@ public class Adminstrator implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+    
     @Basic(optional = false)
-    @Column(name = "shift")
-    private String shift;
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @Enumerated(value = EnumType.STRING) 
+    @Column(name = "category", length = 1)
+    private Shift shift;
+    
+    @OneToOne
+    @JoinColumn(name="id")
+    @MapsId
     private Employee employee;
 
     public Adminstrator() {
@@ -49,7 +56,7 @@ public class Adminstrator implements Serializable {
         this.id = id;
     }
 
-    public Adminstrator(Long id, String shift) {
+    public Adminstrator(Long id, Shift shift) {
         this.id = id;
         this.shift = shift;
     }
@@ -62,15 +69,17 @@ public class Adminstrator implements Serializable {
         this.id = id;
     }
 
-    public String getShift() {
-        return shift;
-    }
+   
 
-    public void setShift(String shift) {
-        this.shift = shift;
-    }
+    public Shift getShift() {
+		return shift;
+	}
 
-    public Employee getEmployee() {
+	public void setShift(Shift shift) {
+		this.shift = shift;
+	}
+
+	public Employee getEmployee() {
         return employee;
     }
 

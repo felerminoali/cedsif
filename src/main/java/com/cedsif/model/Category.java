@@ -2,9 +2,9 @@ package com.cedsif.model;
 
 public enum Category {
 	
-	CONSULTANT("Consultor"),
-	MANAGER("Gestor"),
-	ADMINISTRATOR("Administrador");
+	C("Consultor"),
+	G("Gestor"),
+	A("Administrador");
 	
 	private final String category;
 

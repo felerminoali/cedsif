@@ -10,6 +10,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +23,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *
@@ -37,7 +41,7 @@ public class Relative implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Basic(optional = false)
     @Column(name = "dob")
     @Temporal(TemporalType.DATE)
@@ -45,12 +49,16 @@ public class Relative implements Serializable {
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
+    
     @Basic(optional = false)
+    @Enumerated(value = EnumType.STRING) 
     @Column(name = "relatedness")
-    private String relatedness;
+    private Relatedness relatedness;
     @Basic(optional = false)
     @Column(name = "sex")
-    private boolean sex;
+    private Short sex;
+    
+    @JsonIgnore
     @JoinColumn(name = "employee", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Employee employee;
@@ -58,11 +66,11 @@ public class Relative implements Serializable {
     public Relative() {
     }
 
-    public Relative(Integer id) {
+    public Relative(Long id) {
         this.id = id;
     }
 
-    public Relative(Integer id, Date dob, String name, String relatedness, boolean sex) {
+    public Relative(Long id, Date dob, String name, Relatedness relatedness, Short sex) {
         this.id = id;
         this.dob = dob;
         this.name = name;
@@ -70,11 +78,11 @@ public class Relative implements Serializable {
         this.sex = sex;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -94,19 +102,19 @@ public class Relative implements Serializable {
         this.name = name;
     }
 
-    public String getRelatedness() {
+    public Relatedness getRelatedness() {
         return relatedness;
     }
 
-    public void setRelatedness(String relatedness) {
+    public void setRelatedness(Relatedness relatedness) {
         this.relatedness = relatedness;
     }
 
-    public boolean getSex() {
+    public Short getSex() {
         return sex;
     }
 
-    public void setSex(boolean sex) {
+    public void setSex(Short sex) {
         this.sex = sex;
     }
 

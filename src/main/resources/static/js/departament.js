@@ -51,8 +51,8 @@ $('#tblDepartaments tbody').on('click', '.delete', function() {
 	if (confirm('Tem certeza que deseja remover?')) {
 		// ajax delete data to database
 		$.ajax({
-			url: "/departament/api/" + id,
-			type: "DELETE",
+			url: "/departament/api/"+id,
+			type: "DETELE",
 			dataType: "JSON",
 			success: function(data) {
 				reload_table();

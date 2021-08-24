@@ -35,7 +35,7 @@ public class DepartamentRestController {
 	@Autowired
 	private DepartamentRepository repository;
 	
-	@RequestMapping(value = "/departament/api")
+	@RequestMapping(value = "/departament/api", method = RequestMethod.GET)
 	public ResponseEntity<DataTable> listDepartaments(
 			@RequestParam(value = "draw", defaultValue = "1") Integer draw,
 			@RequestParam(value = "start", defaultValue = "0") Integer start,
@@ -87,7 +87,7 @@ public class DepartamentRestController {
 	@GetMapping(value = "/departament/api/{id}")
 	public ResponseEntity<Departament> getDepatament(@PathVariable("id") Long id) {
 		try {
-			
+		
 			Optional<Departament> departament = repository.findById(id);
 			return ResponseEntity.ok(departament.get());
 		} catch (Exception e) {
@@ -96,13 +96,25 @@ public class DepartamentRestController {
 
 	}
 	
+	@PostMapping(value = "/departament/api/post/{id}")
+	public ResponseEntity<Void> doPost(@PathVariable("id") Long id) {
+		logger.error("entrei");
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
 	
-	@DeleteMapping("/departament/api/{id}")
+	@RequestMapping(
+			value = "/departament/api/{id}",
+			method = RequestMethod.POST,
+			produces = {MimeTypeUtils.APPLICATION_JSON_VALUE},
+            headers = "Accept=application/json"
+			)
 	public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
 		try {
+			logger.error("entrei");
 	    repository.deleteById(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (Exception e) {
+			logger.error(e.getMessage());
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
 	  }

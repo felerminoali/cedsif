@@ -16,9 +16,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
@@ -42,8 +44,11 @@ public class Consultant implements Serializable {
     @JoinColumn(name = "profile", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Profile profile;
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false, nullable=false)
-    @OneToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+   
+    
+    @OneToOne
+    @JoinColumn(name="id")
+    @MapsId
     private Employee employee;
 
     public Consultant() {
@@ -76,7 +81,7 @@ public class Consultant implements Serializable {
     public void setProfile(Profile profile) {
         this.profile = profile;
     }
-
+   
     public Employee getEmployee() {
         return employee;
     }

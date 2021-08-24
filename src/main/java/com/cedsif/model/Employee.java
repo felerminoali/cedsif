@@ -17,8 +17,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -46,9 +44,15 @@ public class Employee implements Serializable {
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
+    
     @Basic(optional = false)
     @Column(name = "nuit")
     private String nuit;
+    
+    @Basic(optional = false)
+    @Column(name = "photo")
+    private String photo =  "../../dist/img/user4-128x128.jpg";
+    
     @Basic(optional = false)
     @Column(name = "sex")
     private short sex;
@@ -56,23 +60,23 @@ public class Employee implements Serializable {
     
     @Basic(optional = false)
     @Enumerated(value = EnumType.STRING) 
-    @Column(name = "category", length = 10)
+    @Column(name = "category", length = 1)
     private Category category;
     
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employee", orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "employee")
     private Manager manager;
     
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employee", orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "employee")
     private Adminstrator adminstrator;
     
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employee", orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "employee")
     private Consultant consultant;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
     private List<Relative> relativeList;
 
     public Employee() {
@@ -146,16 +150,15 @@ public class Employee implements Serializable {
 		this.category = category;
 	}
 
-	public Consultant getConsultant() {
-        return consultant;
-    }
+    public Consultant getConsultant() {
+		return consultant;
+	}
 
-    public void setConsultant(Consultant consultant) {
-        this.consultant = consultant;
-    }
- 
+	public void setConsultant(Consultant consultant) {
+		this.consultant = consultant;
+	}
 
-    public List<Relative> getRelativeList() {
+	public List<Relative> getRelativeList() {
         return relativeList;
     }
 

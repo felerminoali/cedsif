@@ -16,11 +16,13 @@ $('#tblEmployee').DataTable({
 	columns: [
 		{ "data": "name" },
 		{ "data": "nuit" },
+		{ "data": "category" },
 		{
 			data: "id", render: function(data, type, row, meta) {
 				html = "<div>";
 				html += "<a href='#'><button rel='" + data + "' type='button' class='btn btn-outline-info btn-sm delete'><i class='fa fa-trash'></i></button></a>";
-				html += "<a href='/employee/edit-consultant/"+data+"'><button type='button' class='btn btn-outline-info btn-sm'><i class='fa fa-edit'></i></button></a>";
+				html += "<a href='/employee/edit/" + data + "'><button type='button' class='btn btn-outline-info btn-sm'><i class='fa fa-edit'></i></button></a>";
+				html += "<a href='/employee/"+data+"/details'><button type='button' rel='"+data+"' class='btn btn-outline-info btn-sm'><i class='fa fa-eye'></i></button></a>";
 				html += "</div>";
 				return html;
 			}
@@ -58,8 +60,8 @@ $('#tblEmployee tbody').on('click', '.delete', function() {
 				reload_table();
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
-				 var err = JSON.parse(jqXHR.responseText);
-  				 alert(err.Message);
+				var err = JSON.parse(jqXHR.responseText);
+				alert(err.Message);
 			}
 		});
 	}

@@ -16,11 +16,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *
@@ -38,15 +41,19 @@ public class Manager implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
-    @Column(name = "academic_institution")
-    private String academicInstitution;
-    @Column(name = "last_course")
-    private String lastCourse;
+    @Column(name = "institution")
+    private String institution;
+    @Column(name = "course")
+    private String course;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "manager", fetch = FetchType.LAZY)
     private List<ManagerWorkingHours> managerWorkingHoursList;
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    
+    @OneToOne
+    @JoinColumn(name="id")
+    @MapsId
     private Employee employee;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "manager", fetch = FetchType.LAZY)
     private List<Project> projectList;
 
@@ -65,23 +72,24 @@ public class Manager implements Serializable {
         this.id = id;
     }
 
-    public String getAcademicInstitution() {
-        return academicInstitution;
-    }
+   
+    public String getInstitution() {
+		return institution;
+	}
 
-    public void setAcademicInstitution(String academicInstitution) {
-        this.academicInstitution = academicInstitution;
-    }
+	public void setInstitution(String institution) {
+		this.institution = institution;
+	}
 
-    public String getLastCourse() {
-        return lastCourse;
-    }
+	public String getCourse() {
+		return course;
+	}
 
-    public void setLastCourse(String lastCourse) {
-        this.lastCourse = lastCourse;
-    }
+	public void setCourse(String course) {
+		this.course = course;
+	}
 
-    public List<ManagerWorkingHours> getManagerWorkingHoursList() {
+	public List<ManagerWorkingHours> getManagerWorkingHoursList() {
         return managerWorkingHoursList;
     }
 
