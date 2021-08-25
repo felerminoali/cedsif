@@ -1,0 +1,88 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout">
+
+<head>
+	<title>Adicionar Dependente</title>
+</head>
+
+<body>
+	<section layout:fragment="header">
+		<h1>Adição de Dependente</h1>
+		<ol class="breadcrumb">
+			<li><a href="/"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+			<li><a href="/employee">Funcionários</a></li>
+			<li><a th:href="${'/employee/' + employee.id  + '/details'}">Detalhes</a></li>
+			<li class="active">Adicionar dependente</li>
+		</ol>
+	</section>
+	<div layout:fragment="content">
+		<div class="box">
+			<div class="box-header with-border">
+				<h3 class="box-title">Formulario</h3>
+				<div class="box-tools pull-right">
+					<a th:href="${'/employee/' + employee.id  + '/details'}" type="button" class="btn btn-box-tool"><i class="fa fa-list-ul"></i></a>
+				</div>
+			</div>
+
+			<form data-toggle="validator" role="form" th:object="${relative}" th:action="@{/relative/save}"
+				method="post">
+				<div class="box-body">
+					<input type="hidden" th:field="*{id}" />
+					<input type="hidden" th:value="${employee.id}" th:attr="name='employee.id'" /> 
+
+					<div class="form-group">
+						<label for="name">Nome</label>
+						<input type="text" required="true" class="form-control" th:field="*{name}" />
+					</div>
+
+					
+					<div class="form-group">
+						<label>Data de Nascimento:</label>
+						<div class="input-group date" data-provide="datepicker">
+						<input type="text" class="form-control" th:field="*{dob}"> 
+						<div class="input-group-addon">
+							<span class="glyphicon glyphicon-th"></span>
+						</div>
+					</div>
+					</div><!-- /.form group -->
+
+					<div class="form-group">
+						<label for="sex">Sexo</label>
+						<select required="true" th:field="*{sex}" class="form-control">
+							<option th:value="1" th:text="Masculino"></option>
+							<option th:value="0" th:text="Femenino"></option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label for="relatedness">Grau de parentesco</label>
+
+						<select required="true" th:field="*{relatedness}" class="form-control">
+							<option th:each="relate : ${T(com.cedsif.model.Relatedness).values()}" th:value="${relate}"
+								th:text="${relate.description}"></option>
+						</select>
+					</div>
+
+				</div>
+
+				<div class="box-footer">
+					<button class="btn btn-primary" type="submit">Save</button>
+				</div>
+
+
+			</form>
+
+		</div>
+	</div>
+
+	<th:block layout:fragment="script">
+		$('.datepicker').datepicker(
+			
+		);
+	</th:block>
+
+
+</body>
+
+</html>

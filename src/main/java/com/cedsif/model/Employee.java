@@ -17,14 +17,17 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 /**
  *
  * @author user
@@ -78,7 +81,12 @@ public class Employee implements Serializable {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
     private List<Relative> relativeList;
+    
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "employee_project",   joinColumns = @JoinColumn(name = "employee_id"), uniqueConstraints = {@UniqueConstraint(columnNames = {"employee_id","project_id"})}, inverseJoinColumns = @JoinColumn(name = "project_id"))
+    private List<Project> projects;
+    
     public Employee() {
     }
 
@@ -93,7 +101,49 @@ public class Employee implements Serializable {
         this.sex = sex;
     }
 
-    public Long getId() {
+    
+    
+    public Employee(String name, String nuit, String photo, short sex, Category category, Manager manager,
+			List<Relative> relativeList) {
+		super();
+		this.name = name;
+		this.nuit = nuit;
+		this.photo = photo;
+		this.sex = sex;
+		this.category = category;
+		this.manager = manager;
+		this.relativeList = relativeList;
+	}
+    
+	public Employee(String name, String nuit, String photo, short sex, Category category, Adminstrator adminstrator,
+			List<Relative> relativeList) {
+		super();
+		this.name = name;
+		this.nuit = nuit;
+		this.photo = photo;
+		this.sex = sex;
+		this.category = category;
+		this.adminstrator = adminstrator;
+		this.relativeList = relativeList;
+	}
+	
+	
+	public Employee(String name, String nuit, String photo, short sex, Category category, Consultant consultant,
+			List<Relative> relativeList) {
+		super();
+		this.name = name;
+		this.nuit = nuit;
+		this.photo = photo;
+		this.sex = sex;
+		this.category = category;
+		this.consultant = consultant;
+		this.relativeList = relativeList;
+	}
+	
+	
+
+
+	public Long getId() {
         return id;
     }
 
@@ -165,8 +215,26 @@ public class Employee implements Serializable {
     public void setRelativeList(List<Relative> relativeList) {
         this.relativeList = relativeList;
     }
+    
+    
 
-    @Override
+    public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
+	public List<Project> getProjects() {
+		return projects;
+	}
+
+	public void setProjects(List<Project> projects) {
+		this.projects = projects;
+	}
+
+	@Override
     public int hashCode() {
         int hash = 0;
         hash += (id != null ? id.hashCode() : 0);

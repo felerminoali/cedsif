@@ -6,7 +6,9 @@
 package com.cedsif.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -41,13 +43,11 @@ public class Users implements Serializable {
     @Basic(optional = false)
     @Column(name = "enabled")
     private boolean enabled;
-    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "users", fetch = FetchType.EAGER)
+    private List<Authorities> authorities;
     @JoinColumn(name = "employee", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Employee employee;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "users", fetch = FetchType.EAGER)
-    private List<Authorities> authoritiesList;
 
     public Users() {
     }
@@ -62,7 +62,17 @@ public class Users implements Serializable {
         this.enabled = enabled;
     }
 
-    public String getUsername() {
+    
+    public Users(String username, String password, boolean enabled, List<Authorities> authorities, Employee employee) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.enabled = enabled;
+		this.authorities = authorities;
+		this.employee = employee;
+	}
+
+	public String getUsername() {
         return username;
     }
 
@@ -86,20 +96,20 @@ public class Users implements Serializable {
         this.enabled = enabled;
     }
 
+    public List<Authorities> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(List<Authorities> authorities) {
+        this.authorities = authorities;
+    }
+
     public Employee getEmployee() {
         return employee;
     }
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
-    }
-
-    public List<Authorities> getAuthoritiesList() {
-        return authoritiesList;
-    }
-
-    public void setAuthoritiesList(List<Authorities> authoritiesList) {
-        this.authoritiesList = authoritiesList;
     }
 
     @Override

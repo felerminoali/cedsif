@@ -60,6 +60,8 @@ public class Adminstrator implements Serializable {
         this.id = id;
         this.shift = shift;
     }
+    
+    
 
     public Long getId() {
         return id;

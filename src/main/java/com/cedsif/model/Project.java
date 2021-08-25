@@ -8,6 +8,7 @@ package com.cedsif.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -25,6 +26,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * @author user
@@ -40,23 +45,25 @@ public class Project implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Basic(optional = false)
     @Column(name = "end")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "mm/dd/yyyy")
     private Date end;
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
     @Basic(optional = false)
     @Column(name = "start")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "mm/dd/yyyy")
     private Date start;
+    
+    @JsonIgnore	
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "project", fetch = FetchType.LAZY)
     private List<ManagerWorkingHours> managerWorkingHoursList;
-    @JoinColumn(name = "manager", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Manager manager;
+    
     @JoinColumn(name = "departament", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Departament departament;
@@ -64,22 +71,22 @@ public class Project implements Serializable {
     public Project() {
     }
 
-    public Project(Integer id) {
+    public Project(Long id) {
         this.id = id;
     }
 
-    public Project(Integer id, Date end, String name, Date start) {
+    public Project(Long id, Date end, String name, Date start) {
         this.id = id;
         this.end = end;
         this.name = name;
         this.start = start;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -113,14 +120,6 @@ public class Project implements Serializable {
 
     public void setManagerWorkingHoursList(List<ManagerWorkingHours> managerWorkingHoursList) {
         this.managerWorkingHoursList = managerWorkingHoursList;
-    }
-
-    public Manager getManager() {
-        return manager;
-    }
-
-    public void setManager(Manager manager) {
-        this.manager = manager;
     }
 
     public Departament getDepartament() {

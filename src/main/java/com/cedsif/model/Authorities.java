@@ -43,6 +43,11 @@ public class Authorities implements Serializable {
         this.authoritiesPK = new AuthoritiesPK(username, authority);
     }
 
+    public Authorities(String username, String authority, Users users) {
+        this.authoritiesPK = new AuthoritiesPK(username, authority);
+        this.users = users;
+    }
+    
     public AuthoritiesPK getAuthoritiesPK() {
         return authoritiesPK;
     }

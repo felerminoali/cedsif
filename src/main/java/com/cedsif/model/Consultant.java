@@ -6,8 +6,8 @@
 package com.cedsif.model;
 
 import java.io.Serializable;
+
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,7 +20,6 @@ import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
@@ -51,6 +50,8 @@ public class Consultant implements Serializable {
     @MapsId
     private Employee employee;
 
+    
+   
     public Consultant() {
     }
 

@@ -24,6 +24,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
@@ -45,6 +47,7 @@ public class Relative implements Serializable {
     @Basic(optional = false)
     @Column(name = "dob")
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "mm/dd/yyyy")
     private Date dob;
     @Basic(optional = false)
     @Column(name = "name")

@@ -20,7 +20,7 @@ import com.cedsif.model.Consultant;
 import com.cedsif.model.Employee;
 import com.cedsif.model.Manager;
 import com.cedsif.model.Profile;
-import com.cedsif.repository.ConsultantRepository;
+import com.cedsif.model.Users;
 import com.cedsif.repository.EmployeeRepository;
 import com.cedsif.repository.ProfileRepository;
 
@@ -52,6 +52,8 @@ public class EmployeeController {
 		
 		if(employee.isPresent()) {
 			model.addAttribute("employee",employee.get());
+			Users users = new Users();
+			model.addAttribute("users",users);
 			return "/employee/details";
 		}
 		return "redirect:/employee/all";

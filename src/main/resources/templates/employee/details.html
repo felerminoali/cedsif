@@ -1,0 +1,180 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="layout">
+
+<head>
+	<title>Funcionários</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+
+		<!-- Content Header (Page header) -->
+		<section class="content-header">
+			<h1>
+				Detalhes
+			</h1>
+			<ol class="breadcrumb">
+
+				<li><a href="/"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+				<li><a href="/employee">Funcionários</a></li>
+				<li class="active">Detalhes</li>
+			</ol>
+		</section>
+
+		<!-- Main content -->
+		<section class="content">
+
+			<div class="row">
+				<div class="col-md-3">
+					<!-- Profile Image -->
+					<div class="box box-primary">
+						<div class="box-body box-profile">
+							<img class="profile-user-img img-responsive img-circle"
+								src="../../dist/img/user4-128x128.jpg" alt="User profile picture">
+							<h3 class="profile-username text-center"  th:text="${employee.name}"></h3>
+							<p class="text-muted text-center" th:text="${employee.category.category}"></p>
+
+							<ul class="list-group list-group-unbordered">
+								<li class="list-group-item">
+									<b>Nuit</b> <a class="pull-right" th:text="${employee.nuit}"></a>
+								</li>
+								<li class="list-group-item">
+									<b>Sexo</b> <a class="pull-right" th:text="(${employee.sex} == 0) ? 'Femenino': 'Masculino'"></a>
+								</li>
+								<li class="list-group-item" th:if="${employee.category.category == 'Administrador'}">
+									<b>Turno</b> <a class="pull-right" th:text="${employee.adminstrator.shift.description}"></a>
+								</li>
+								<li class="list-group-item" th:if="${employee.category.category == 'Consultor'}">
+									<b>Endereço</b> <a class="pull-right" th:text="${employee.consultant.address}"></a>
+								</li>
+								
+								<li class="list-group-item" th:if="${employee.category.category == 'Consultor'}">
+									<b>Área</b> <a class="pull-right" th:text="${employee.consultant.profile.profile}"></a>
+								</li>
+								
+								
+							</ul>
+
+							<a href="/employee" class="btn btn-primary btn-block"><b>Voltar</b></a>
+						</div><!-- /.box-body -->
+					</div><!-- /.box -->
+
+				</div><!-- /.col -->
+
+				<div class="col-md-9">
+					<div class="nav-tabs-custom">
+						<ul class="nav nav-tabs">
+							<li class="active"><a href="#activity" data-toggle="tab">Dependentes</a></li>
+							<li><a href="#timeline" data-toggle="tab">Projecto</a></li>
+							<li><a href="#settings" data-toggle="tab">Credencias de Acesso</a></li>
+						</ul>
+						<div class="tab-content">
+							<div class="active tab-pane" id="activity">
+
+
+
+								<div>
+									<div class="box">
+										<div class="box-header with-border">
+											<div class="box-header with-border">
+												<h3 class="box-title">Lista</h3>
+												<div class="box-tools pull-right">
+													<div class="box-tools pull-right">
+														<a th:href="${'/relative/add/' + employee.id}" type="button"
+															class="btn btn-box-tool"><i class="fa fa-plus"></i>
+															Adicionar</a>
+														<br clear="all" />
+													</div>
+												</div>
+											</div>
+
+										</div>
+										<!-- /.card-header -->
+										<div class="box-body">
+
+											<table id="tblRelatives" class="table table-bordered table-striped"
+												style="width:100%">
+												<thead>
+													<tr>
+														<th>Nome</th>
+														<th>Grau de Parentesco</th>
+														<th>Sexo</th>
+														<th>Data de Nascimento</th>
+														<th>Acção</th>
+													</tr>
+												</thead>
+												<tbody>
+												</tbody>
+												<tfoot>
+												</tfoot>
+											</table>
+										</div>
+										<!-- /.card-body -->
+									</div>
+								</div>
+
+
+
+							</div>
+
+
+							<!-- /.tab-pane -->
+							<div class="tab-pane" id="timeline">
+								<!-- The timeline -->
+								
+							</div><!-- /.tab-pane -->
+
+							<div class="tab-pane" id="settings">
+								<form class="form-horizontal" data-toggle="validator" role="form" th:object="${users}" th:action="@{/users/save}" method="post">
+									<input type="hidden" th:value="${employee.id}" th:attr="name='employee.id'" /> 
+									<div class="form-group">
+										<label for="username" class="col-sm-2 control-label">Username</label>
+										<div class="col-sm-10">
+											<input type="text" required="true" class="form-control" th:field="*{username}" placeholder="Name">
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label for="password" class="col-sm-2 control-label">Password</label>
+										<div class="col-sm-10">
+											<input type="password" required="true" class="form-control" th:field="*{password}" placeholder="Name">
+										</div>
+									</div>
+									<!--
+									
+									<div class="form-group">
+										<div class="col-sm-offset-2 col-sm-10">
+											<div class="checkbox">
+												<label>
+													<input type="checkbox" required="true" th:field="*{enabled}"> Activar Usuário 
+												</label>
+											</div>
+										</div>
+									</div>
+									
+									-->
+									<div class="form-group">
+										<div class="col-sm-offset-2 col-sm-10">
+											<button type="submit" class="btn btn-danger">Submit</button>
+										</div>
+									</div>
+								</form>
+							</div><!-- /.tab-pane -->
+						</div><!-- /.tab-content -->
+					</div><!-- /.nav-tabs-custom -->
+				</div><!-- /.col -->
+			</div><!-- /.row -->
+
+		</section><!-- /.content -->
+
+
+	</div>
+
+	<th:block layout:fragment="script">
+		<script th:src="@{/js/employee-details.js}"></script>
+	</th:block>
+
+</body>
+
+</html>>

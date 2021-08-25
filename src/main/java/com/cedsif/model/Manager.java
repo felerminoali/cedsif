@@ -54,8 +54,8 @@ public class Manager implements Serializable {
     @MapsId
     private Employee employee;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "manager", fetch = FetchType.LAZY)
-    private List<Project> projectList;
+   // @OneToMany(cascade = CascadeType.ALL, mappedBy = "manager", fetch = FetchType.LAZY)
+    //private List<Project> projectList;
 
     public Manager() {
     }
@@ -104,7 +104,7 @@ public class Manager implements Serializable {
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
-
+/*
     public List<Project> getProjectList() {
         return projectList;
     }
@@ -112,7 +112,7 @@ public class Manager implements Serializable {
     public void setProjectList(List<Project> projectList) {
         this.projectList = projectList;
     }
-
+*/
     @Override
     public int hashCode() {
         int hash = 0;
