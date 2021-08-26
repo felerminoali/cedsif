@@ -6,6 +6,9 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +26,10 @@ import com.cedsif.model.Profile;
 import com.cedsif.model.Users;
 import com.cedsif.repository.EmployeeRepository;
 import com.cedsif.repository.ProfileRepository;
+import com.cedsif.repository.UsersRepository;
 
 @Controller
+
 @RequestMapping("employee")
 public class EmployeeController {
 
@@ -36,6 +41,9 @@ public class EmployeeController {
 	@Autowired
 	private ProfileRepository profileRepository;
 
+	@Autowired
+	private UsersRepository userRepository;
+
 	@GetMapping
 	public String index(Model model) {
 		return "redirect:/employee/all";
@@ -46,19 +54,34 @@ public class EmployeeController {
 		return "/employee/list";
 	}
 
+	@GetMapping("/consutant-area")
+	public String list(@AuthenticationPrincipal final UserDetails userDetails, Model model) {
+
+		String username = userDetails.getUsername();
+		Optional<Users> user = userRepository.findByUsername(username);
+		
+		if (user.isPresent()) {
+			if(user.get().getEmployee() != null ) {
+				return "redirect:/employee/"+user.get().getEmployee().getId()+"/details";
+			}
+		} 
+		
+		return "redirect:/employee/all";
+	}
+
 	@GetMapping("{id}/details")
 	public String details(@PathVariable Long id, Model model, final RedirectAttributes ra) {
 		Optional<Employee> employee = repository.findById(id);
-		
-		if(employee.isPresent()) {
-			model.addAttribute("employee",employee.get());
+
+		if (employee.isPresent()) {
+			model.addAttribute("employee", employee.get());
 			Users users = new Users();
-			model.addAttribute("users",users);
+			model.addAttribute("users", users);
 			return "/employee/details";
 		}
 		return "redirect:/employee/all";
 	}
-	
+
 	// ----------------Consutant -----------------
 	@GetMapping("/add-consultant")
 	public String addConsultant(Model model) {
@@ -83,8 +106,7 @@ public class EmployeeController {
 				employee.setConsultant(c);
 
 				Employee save = repository.save(employee);
-				
-				
+
 			} else {
 
 				Employee e = copyEmployeeData(employee);
@@ -107,16 +129,15 @@ public class EmployeeController {
 		ra.addFlashAttribute("successFlash", "Funcionario foi salvo com sucesso.");
 		return "redirect:/employee";
 	}
-	//--------------- End Consultant -----------------
+	// --------------- End Consultant -----------------
 
-	//---------------  Admin -----------------
+	// --------------- Admin -----------------
 	@GetMapping("/add-admin")
 	public String addAdministrator(Model model) {
 		adminModel(model, new Employee());
 		return "/employee/add_admin";
 	}
 
-	
 	public String editAdministrator(Employee employee, Model model, final RedirectAttributes ra) {
 		adminModel(model, employee);
 		return "/employee/add_admin";
@@ -136,7 +157,6 @@ public class EmployeeController {
 				Employee save = repository.save(employee);
 			} else {
 
-				
 				Employee e = copyEmployeeData(employee);
 
 				Employee save = repository.save(e);
@@ -156,24 +176,23 @@ public class EmployeeController {
 		ra.addFlashAttribute("successFlash", "Funcionario foi salvo com sucesso.");
 		return "redirect:/employee";
 	}
-	
-	//---------------  End Admin -----------------
-	
-	//---------------  Manager -----------------
+
+	// --------------- End Admin -----------------
+
+	// --------------- Manager -----------------
+
 	@GetMapping("/add-manager")
 	public String addManager(Model model) {
 		managerModel(model, new Employee());
 		return "/employee/add_manager";
-		
-		
+
 	}
-	
+
 	public String editManager(Employee employee, Model model, final RedirectAttributes ra) {
 		managerModel(model, employee);
 		return "/employee/add_manager";
 	}
-	
-	
+
 	@PostMapping(value = "/save-manager")
 	public String saveManager(Employee employee, final RedirectAttributes ra) {
 
@@ -206,9 +225,8 @@ public class EmployeeController {
 		ra.addFlashAttribute("successFlash", "Funcionario foi salvo com sucesso.");
 		return "redirect:/employee";
 	}
-	
-	//---------------  End Manager -----------------
-	
+
+	// --------------- End Manager -----------------
 	@GetMapping("/edit/{id}")
 	public String edit(@PathVariable Long id, Model model, final RedirectAttributes ra) {
 		Optional<Employee> employee = repository.findById(id);
@@ -218,9 +236,9 @@ public class EmployeeController {
 
 			if (employee.get().getCategory() == Category.C) {
 				page = editConsultant(employee.get(), model, ra);
-			}else if (employee.get().getCategory() == Category.A) {
+			} else if (employee.get().getCategory() == Category.A) {
 				page = editAdministrator(employee.get(), model, ra);
-			}else if(employee.get().getCategory() == Category.G) {
+			} else if (employee.get().getCategory() == Category.G) {
 				page = editManager(employee.get(), model, ra);
 			}
 
@@ -231,7 +249,7 @@ public class EmployeeController {
 
 		return page;
 	}
-	
+
 	private void consultantModel(Model model, Employee employee) {
 		model.addAttribute("employee", employee);
 		List<Profile> profiles = profileRepository.findAll();
@@ -243,12 +261,12 @@ public class EmployeeController {
 		model.addAttribute("employee", employee);
 		model.addAttribute("category", Category.A);
 	}
-	
+
 	private void managerModel(Model model, Employee employee) {
 		model.addAttribute("employee", employee);
 		model.addAttribute("category", Category.G);
 	}
-	
+
 	private Employee copyEmployeeData(Employee employee) {
 		Employee e = new Employee();
 		e.setName(employee.getName());

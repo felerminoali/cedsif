@@ -67,6 +67,11 @@ public class Project implements Serializable {
     @JoinColumn(name = "departament", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Departament departament;
+    
+    
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project", fetch = FetchType.LAZY)
+    private List<Backlog> backlogList;
 
     public Project() {
     }
@@ -122,7 +127,17 @@ public class Project implements Serializable {
         this.managerWorkingHoursList = managerWorkingHoursList;
     }
 
-    public Departament getDepartament() {
+    
+    
+    public List<Backlog> getBacklogList() {
+		return backlogList;
+	}
+
+	public void setBacklogList(List<Backlog> backlogList) {
+		this.backlogList = backlogList;
+	}
+
+	public Departament getDepartament() {
         return departament;
     }
 

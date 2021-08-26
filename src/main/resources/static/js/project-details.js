@@ -22,7 +22,6 @@ $('#tblConsultant').DataTable({
 		{
 			data: "id", render: function(data, type, row, meta) {
 				html = "<div>";
-				html += "<a href='#'><button rel='" + data + "' type='button' class='btn btn-outline-info btn-sm delete'><i class='fa fa-trash'></i></button></a>";
 				html += "<a href='/employee/" + data + "/details'><button type='button' class='btn btn-outline-info btn-sm'><i class='fa fa-eye'></i></button></a>";
 				html += "</div>";
 				return html;

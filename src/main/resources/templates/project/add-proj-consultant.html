@@ -127,28 +127,28 @@
 								<h4 class="modal-title">Adicionar Consultor</h4>
 							</div>
 							<div class="modal-body">
-								<form data-toggle="validator" role="form" method="post">
+								<form data-toggle="validator" role="form" method="post" id="form-add">
 									<div class="box-body">
-										<input type="hidden" name="project" th:value=${project.id} />
-										
 										<div class="form-group">
 											<label for="employee">Consultor</label>
 											<select class="form-control" required="true" name="employee" id="employee">
-												<option th:each="employee: ${employees}"
-													th:value="${employee.id}" th:text="${employee.name}"></option>
+												<option th:each="employee: ${employees}" th:value="${employee.id}"
+													th:text="${employee.name}"></option>
 											</select>
 										</div>
-									
+
 									</div>
 									<div class="box-footer text-center">
-										<button class="btn btn-primary" type="submit">Adicionar Consultor</button>
+										<!--<button class="btn btn-primary" type="submit">Adicionar Consultor</button>-->
+										<a href="#" type="button" class="btn btn-primary add">Adicionar Consultor</a>
 									</div>
 								</form>
 
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-default pull-left"
-									data-dismiss="modal">Close</button>
+								<a th:href="${'/project/'+project.id+'/details'}" type="button"
+									class="btn btn-default pull-left">Close</a>
+								<!--<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button> -->
 							</div>
 						</div><!-- /.modal-content -->
 					</div><!-- /.modal-dialog -->
@@ -167,6 +167,41 @@
 				backdrop: 'static',
 				keyboard: false
 			})
+		</script>
+
+		<script type="application/javascript">
+
+			if ($('.add').length > 0) {
+				($('.add').click(function () {
+
+					var project_id = $('#project_id').val();
+					var employee_id = $("#employee").val();
+					
+					console.log("project"+project_id+" - "+"employee"+employee_id)
+
+					$.ajax({
+						type: "POST",
+						data: {
+							poject: project_id,
+							consultant: employee_id
+						},
+						url: "/project/consultant/save/" + project_id + "/" + employee_id,
+						success: function (msg) {
+							window.location.href = "/project/"+project_id+"/details";
+						},
+						error: function (xhr, textStatus, error) {
+							console.log(xhr.statusText);
+							console.log(textStatus);
+							console.log(error);
+						}
+					});
+
+				}));
+			}
+
+
+
+
 		</script>
 
 	</th:block>

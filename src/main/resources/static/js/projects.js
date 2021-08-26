@@ -1,55 +1,58 @@
-$('#tblProjects').DataTable({
-	"processing": true,
-	"serverSide": true,
-	"paging": true,
-	//"scrollY": "230px",
-	"ajax": {
-		"url": "/project/api",
-		"type": "GET"
-	},
-	columnDefs: [
-		{
-			"targets": -1, //last column
-			"orderable": false, //set not orderable
-		},
-	],
-	columns: [
-		{ "data": "name" },
-		{ "data": "start" },
-		{ "data": "end" },
-		{
-			data: "departament", render: function(data, type, row, meta) {
-				return data['name'];
-			}
-		},
-		{
-			data: "id", render: function(data, type, row, meta) {
-				html = "<div>";
-				html += "<a href='#'><button rel='" + data + "' type='button' class='btn btn-outline-info btn-sm delete'><i class='fa fa-trash'></i></button></a>";
-				html += "<a href='/project/edit/" + data + "'><button type='button' class='btn btn-outline-info btn-sm'><i class='fa fa-edit'></i></button></a>";
-				html += "<a href='/project/" + data + "/details'><button type='button' rel='" + data + "' class='btn btn-outline-info btn-sm'><i class='fa fa-eye'></i></button></a>";
-				html += "</div>";
-				return html;
-			}
-		},
-	],
-	"lengthMenu": [[4, 8, 16, 24, 100], [4, 8, 16, 24, 100]],
-	language: {
-		"lengthMenu": "Mostrar _MENU_ itens por página",
-		"zeroRecords": "Não foi encontrado nenhum registo",
-		"info": "Mostrando página _PAGE_ de _PAGES_",
-		"infoEmpty": "Nenhum registo encontrado",
-		"infoFiltered": "(fitrados apartir _MAX_ dos registos)",
-		"paginate": {
-			"first": "Primeiro",
-			"last": "Último",
-			"next": "Próximo",
-			"previous": "Anterior"
-		},
-		"search": "Pesquisar: "
-	}
-});
+fill_table();
 
+function fill_table() {
+	$('#tblProjects').DataTable({
+		"processing": true,
+		"serverSide": true,
+		"paging": true,
+		//"scrollY": "230px",
+		"ajax": {
+			"url": "/project/api",
+			"type": "GET"
+		},
+		columnDefs: [
+			{
+				"targets": -1, //last column
+				"orderable": false, //set not orderable
+			},
+		],
+		columns: [
+			{ "data": "name" },
+			{ "data": "start" },
+			{ "data": "end" },
+			{
+				data: "departament", render: function(data, type, row, meta) {
+					return data['name'];
+				}
+			},
+			{
+				data: "id", render: function(data, type, row, meta) {
+					html = "<div>";
+					html += "<a href='#'><button rel='" + data + "' type='button' class='btn btn-outline-info btn-sm delete'><i class='fa fa-trash'></i></button></a>";
+					html += "<a href='/project/edit/" + data + "'><button type='button' class='btn btn-outline-info btn-sm'><i class='fa fa-edit'></i></button></a>";
+					html += "<a href='/project/" + data + "/details'><button type='button' rel='" + data + "' class='btn btn-outline-info btn-sm'><i class='fa fa-eye'></i></button></a>";
+					html += "</div>";
+					return html;
+				}
+			},
+		],
+		"lengthMenu": [[4, 8, 16, 24, 100], [4, 8, 16, 24, 100]],
+		language: {
+			"lengthMenu": "Mostrar _MENU_ itens por página",
+			"zeroRecords": "Não foi encontrado nenhum registo",
+			"info": "Mostrando página _PAGE_ de _PAGES_",
+			"infoEmpty": "Nenhum registo encontrado",
+			"infoFiltered": "(fitrados apartir _MAX_ dos registos)",
+			"paginate": {
+				"first": "Primeiro",
+				"last": "Último",
+				"next": "Próximo",
+				"previous": "Anterior"
+			},
+			"search": "Pesquisar: "
+		}
+	});
+}
 
 $('#tblProjects tbody').on('click', '.delete', function() {
 
@@ -58,10 +61,9 @@ $('#tblProjects tbody').on('click', '.delete', function() {
 	if (confirm('Tem certeza que deseja remover?')) {
 		// ajax delete data to database
 		$.ajax({
-			url: "/project/api/" + id,
-			type: "DELETE",
-			dataType: "JSON",
-			success: function(data) {
+			url: "/departament/api/delete/" + id,
+			type: "POST",
+			success: function() {
 				reload_table();
 			},
 			error: function(jqXHR, textStatus, errorThrown) {

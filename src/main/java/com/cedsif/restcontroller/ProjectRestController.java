@@ -14,6 +14,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -75,7 +76,16 @@ public class ProjectRestController {
       }
 	}
 	
-	
+	@PostMapping(value = "/project/api/delete/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Long id) {
+		try {
+	    repository.deleteById(id);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+	  }
 
 	private static Specification<Project> nameContains(String expression) {
 		return (root, query, builder) -> builder.like(root.get("name"), contains(expression));

@@ -1,46 +1,42 @@
 <!-- sidebar: style can be found in sidebar.less -->
 <section class="sidebar" th:fragment="sidebar">
-   
-    <!-- Sidebar Menu -->
-    <ul class="sidebar-menu" data-widget="tree">
-      
-      <li class="header">Cedsif, IP</li>
-   	  <li class="active treeview">
+
+	<!-- Sidebar Menu -->
+	<ul class="sidebar-menu" data-widget="tree">
+
+		<li class="header">Cedsif, IP</li>
+
+		<li th:if="${#httpServletRequest.requestURI == '/'}" class="active treeview">
+			<a href="/">
+				<i class="fa fa-dashboard"></i> <span>Dashboard</span>
+			</a>
+		</li>
+		
+		<li th:if="${#httpServletRequest.requestURI != '/'}" class="treeview">
             <a href="/">
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span>
             </a>
        </li>
-        
-      <li class="treeview">
-        <a href="#"><i class="fa fa-link"></i> <span>Configurações Globais</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-        <ul class="treeview-menu">
-          <li><a href="/departament">Departamentos</a></li>
-          <li><a href="/employee">Funcionários</a></li>
-           <li><a href="/project">Projectos</a></li>  
-          
-        </ul>
-      </li>
-      <!-- Optionally, you can add icons to the links -->
-      <li><a href="#"><i class="fa fa-link"></i> <span>Projecto</span></a></li>
-      <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
-      <li class="treeview">
-        <a href="#"><i class="fa fa-link"></i> <span>Relatórios</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-        <ul class="treeview-menu">
-          <li><a href="#">Carga Horária de trabalho</a></li>
-          <li><a href="#">Milestone</a></li>
-        
-        </ul>
-      </li>
-      
-    </ul>
-    
+
+		<li sec:authorize="hasAuthority('ADMIN')" th:class="${#httpServletRequest.requestURI.contains('departament')} ? active : ''"><a href="/departament"><i class="fa fa-building"></i> <span> Departamentos</span></a></li>
+		<li sec:authorize="hasAuthority('ADMIN')" th:class="${#httpServletRequest.requestURI.contains('employee')} ? active : ''"><a href="/employee"><i class="fa fa-user"></i> <span> Funcionários</span></a></li>
+		<li sec:authorize="hasAuthority('ADMIN')" th:class="${#httpServletRequest.requestURI.contains('project')} ? active : ''"><a href="/project"><i class="fa fa-tasks"></i> <span> Projectos</span></a></li>
+		<li sec:authorize="hasAuthority('CONSULTANT')" th:class="${#httpServletRequest.requestURI == '/employee/consutant-area'} ? active : ''"><a href="/employee/consutant-area"><i class="fa fa-briefcase"></i> <span> Área do Consultor</span></a></li>
+		<li sec:authorize="hasAuthority('MANAGER')" th:class="${#httpServletRequest.requestURI.contains('backlog')} ? active : ''"><a href="/backlog"><i class="fa fa-building"></i> <span> Manter Backlogs</span></a></li>
+		<li sec:authorize="hasAuthority('ADMIN')" class="treeview">
+			<a href="#"><i class="fa fa-link"></i> <span>Relatórios</span>
+				<span class="pull-right-container">
+					<i class="fa fa-angle-left pull-right"></i>
+				</span>
+			</a>
+			<ul class="treeview-menu">
+				<li><a href="#">Carga Horária de trabalho</a></li>
+				<li><a href="#">Milestone</a></li>
+
+			</ul>
+		</li>
+
+	</ul>
+
 </section>
 <!-- /.sidebar -->

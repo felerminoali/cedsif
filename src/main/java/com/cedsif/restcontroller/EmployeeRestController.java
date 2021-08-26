@@ -19,15 +19,14 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cedsif.model.Category;
 import com.cedsif.model.Employee;
-import com.cedsif.model.Project;
 import com.cedsif.repository.EmployeeRepository;
 import com.cedsif.service.DataTable;
 
@@ -84,8 +83,6 @@ private static Logger logger = LoggerFactory.getLogger(DepartamentRestController
 			logger.error(e.getMessage());
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
       }
-		
-		
 	}
 	
 	
@@ -141,7 +138,7 @@ private static Logger logger = LoggerFactory.getLogger(DepartamentRestController
 	      }
 	}
 	
-	@DeleteMapping("/employee/api/{id}")
+	@PostMapping("/employee/api/delete/{id}")
 	public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
 		try {
 	    repository.deleteById(id);

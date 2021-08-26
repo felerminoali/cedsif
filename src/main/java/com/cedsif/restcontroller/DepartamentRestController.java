@@ -95,22 +95,11 @@ public class DepartamentRestController {
 		}
 
 	}
+
 	
-	@PostMapping(value = "/departament/api/post/{id}")
-	public ResponseEntity<Void> doPost(@PathVariable("id") Long id) {
-		logger.error("entrei");
-		return new ResponseEntity<Void>(HttpStatus.OK);
-	}
-	
-	@RequestMapping(
-			value = "/departament/api/{id}",
-			method = RequestMethod.POST,
-			produces = {MimeTypeUtils.APPLICATION_JSON_VALUE},
-            headers = "Accept=application/json"
-			)
+	@PostMapping(value = "/departament/api/delete/{id}")
 	public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
 		try {
-			logger.error("entrei");
 	    repository.deleteById(id);
 		return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (Exception e) {

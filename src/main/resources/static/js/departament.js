@@ -1,48 +1,51 @@
-$('#tblDepartaments').DataTable({
-	"processing": true,
-	"serverSide": true,
-	"paging": true,
-	//"scrollY": "230px",
-	"ajax": {
-		"url": "/departament/api",
-		"type": "GET"
-	},
-	columnDefs: [
-		{
-			"targets": -1, //last column
-			"orderable": false, //set not orderable
-		},
-	],
-	columns: [
-		{ "data": "name" },
-		{ "data": "code" },
-		{
-			data: "id", render: function(data, type, row, meta) {
-				html = "<div>";
-				html += "<a href='#'><button rel='" + data + "' type='button' class='btn btn-outline-info btn-sm delete'><i class='fa fa-trash'></i></button></a>";
-				html += "<a href='/departament/edit/"+data+"'><button type='button' class='btn btn-outline-info btn-sm'><i class='fa fa-edit'></i></button></a>";
-				html += "</div>";
-				return html;
-			}
-		},
-	],
-	"lengthMenu": [[4, 8, 16, 24, 100], [4, 8, 16, 24, 100]],
-	language: {
-		"lengthMenu": "Mostrar _MENU_ itens por página",
-		"zeroRecords": "Não foi encontrado nenhum registo",
-		"info": "Mostrando página _PAGE_ de _PAGES_",
-		"infoEmpty": "Nenhum registo encontrado",
-		"infoFiltered": "(fitrados apartir _MAX_ dos registos)",
-		"paginate": {
-			"first": "Primeiro",
-			"last": "Último",
-			"next": "Próximo",
-			"previous": "Anterior"
-		},
-		"search": "Pesquisar: "
-	}
-});
+fill_table();
 
+function fill_table() {
+	$('#tblDepartaments').DataTable({
+		"processing": true,
+		"serverSide": true,
+		"paging": true,
+		//"scrollY": "230px",
+		"ajax": {
+			"url": "/departament/api",
+			"type": "GET"
+		},
+		columnDefs: [
+			{
+				"targets": -1, //last column
+				"orderable": false, //set not orderable
+			},
+		],
+		columns: [
+			{ "data": "name" },
+			{ "data": "code" },
+			{
+				data: "id", render: function(data, type, row, meta) {
+					html = "<div>";
+					html += "<a href='#'><button rel='" + data + "' type='button' class='btn btn-outline-info btn-sm delete'><i class='fa fa-trash'></i></button></a>";
+					html += "<a href='/departament/edit/" + data + "'><button type='button' class='btn btn-outline-info btn-sm'><i class='fa fa-edit'></i></button></a>";
+					html += "</div>";
+					return html;
+				}
+			},
+		],
+		"lengthMenu": [[4, 8, 16, 24, 100], [4, 8, 16, 24, 100]],
+		language: {
+			"lengthMenu": "Mostrar _MENU_ itens por página",
+			"zeroRecords": "Não foi encontrado nenhum registo",
+			"info": "Mostrando página _PAGE_ de _PAGES_",
+			"infoEmpty": "Nenhum registo encontrado",
+			"infoFiltered": "(fitrados apartir _MAX_ dos registos)",
+			"paginate": {
+				"first": "Primeiro",
+				"last": "Último",
+				"next": "Próximo",
+				"previous": "Anterior"
+			},
+			"search": "Pesquisar: "
+		}
+	});
+}
 
 $('#tblDepartaments tbody').on('click', '.delete', function() {
 
@@ -51,19 +54,19 @@ $('#tblDepartaments tbody').on('click', '.delete', function() {
 	if (confirm('Tem certeza que deseja remover?')) {
 		// ajax delete data to database
 		$.ajax({
-			url: "/departament/api/"+id,
-			type: "DETELE",
-			dataType: "JSON",
-			success: function(data) {
+			url: "/departament/api/delete/" + id,
+			type: "POST",
+			success: function() {
 				reload_table();
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
-				 var err = JSON.parse(jqXHR.responseText);
-  				 alert(err.Message);
+				var err = JSON.parse(jqXHR.responseText);
+				alert(err.Message);
 			}
 		});
 	}
 });
+
 
 function reload_table() {
 	$('#tblDepartaments').DataTable().destroy();

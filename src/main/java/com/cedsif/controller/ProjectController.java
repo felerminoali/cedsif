@@ -1,5 +1,6 @@
 package com.cedsif.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,8 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
@@ -30,6 +33,7 @@ import com.cedsif.repository.ProjectRepository;
 @RequestMapping("project")
 public class ProjectController {
 
+	private static Logger logger = LoggerFactory.getLogger(ProjectController.class);
 	@Autowired
 	private ProjectRepository repository;
 	
@@ -72,6 +76,22 @@ public class ProjectController {
 		
 		model.addAttribute("employees", employees);
 		return "/project/add-proj-consultant";
+
+	}
+	
+	@PostMapping("/consultant/save/{poject}/{consultant}")
+	public String addConsultant(@PathVariable Long poject, @PathVariable Long consultant, Model model) {
+		
+		Project project = repository.getById(poject);
+		Employee employee = employeeRepository.getById(consultant);
+		
+		List<Project> list = employee.getProjects() == null ? new ArrayList<>() : employee.getProjects();
+		
+		list.add(project);
+		employee.setProjects(list);
+		employeeRepository.save(employee);
+		
+		return "redirect:/project/"+project.getId()+"/details";
 
 	}
 	
